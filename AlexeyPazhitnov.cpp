@@ -11,6 +11,7 @@ int centerLocation = 0;
 bool movingSquares = false;//表示有没有正在移动的结构体
 int squaresType = 0;
 bool gameFlag = 1;
+int sleeptime = 300;
 
 struct gamePanelElem
 {
@@ -18,6 +19,7 @@ struct gamePanelElem
     bool moveFlag;
 };
 
+void gotoxy(int x, int y);
 void printFrame(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE]);
 void creakSquares(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE]);
 void moveEleme(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE]);
@@ -45,14 +47,13 @@ int main()
     initGamePanel(gamePanel);
     while(gameFlag)
     {
-        system("cls");
         if(!movingSquares)
         {
             creakSquares(gamePanel);
         }
         printFrame(gamePanel);
         moveEleme(gamePanel);
-        Sleep(100);
+        Sleep(sleeptime);
     }
     printf("游戏已结束.\n");
     system("pause");
@@ -88,8 +89,26 @@ void initGamePanel(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE])
     gamePanel[FRAME_HEIGH-1][FRAME_WIDE-1].data = '*';
 }
 
+//控制台控制光标坐标
+void gotoxy(int x, int y)
+{
+    COORD coord = {(short)x, (short)y};   
+    /*COORD是Windows API中定义的一种结构，表示一个字符在控制台屏幕上的坐标。其定义为：
+
+    typedef struct _COORD {
+
+    SHORT X; // horizontal coordinate
+
+    SHORT Y; // vertical coordinate
+    } COORD;*/
+
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+
 void printFrame(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE])
 {
+    gotoxy(0,0);
     printf("******************************************\n");
     printf("*s键加快方块移动速度，a键方块左移        *\n");
     printf("*d键方块右移，w键顺时针旋转,p键暂停游戏  *\n");
@@ -235,7 +254,7 @@ void moveEleme(gamePanelElem gamePanel[FRAME_HEIGH][FRAME_WIDE])
                 case 87:
                 case 119:rotate(gamePanel,centerLocation);
                          break;
-                case 112:system("pause");
+                case 112:system("pause");system("cls");
             }
         }
     }

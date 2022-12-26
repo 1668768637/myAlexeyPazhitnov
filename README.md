@@ -1,2 +1,3 @@
 # myAlexeyPazhitnov
-自己写的俄罗斯方块，还有些不足之处
+    It's a traditional game designed by lonelylover.
+    It's adapt for windows because it has uesd a head file named "windows.h" to contral the frame.if you can use linux functions to replace those,it can run in linux,too;
